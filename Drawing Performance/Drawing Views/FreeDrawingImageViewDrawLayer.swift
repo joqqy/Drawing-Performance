@@ -17,53 +17,85 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
         didSet { checkIfTooManyPoints() }
     }
     
-    var sublayers: [CALayer] {
-        return self.layer.sublayers ?? [CALayer]()
+    var brushImage: UIImage?
+    override func didMoveToSuperview() {
+        self.brushImage = UIImage(named: "roundSoft1")?.withTintColor(UIColor.blue, renderingMode: .alwaysOriginal)
     }
+    
+//    var sublayers: [CALayer] {
+//        return self.layer.sublayers ?? [CALayer]()
+//    }
     
     var spiralPoints = [CGPoint]()
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         guard let newTouchPoint = touches.first?.location(in: self) else { return }
         stopAutoDrawing()
         line.append(newTouchPoint)
         
         let lastTouchPoint: CGPoint = line.last ?? .zero
         
-        let rect = calculateRectBetween(lastPoint: lastTouchPoint, newPoint: newTouchPoint)
+        //let rect = calculateRectBetween(lastPoint: lastTouchPoint, newPoint: newTouchPoint)
         
-        layer.setNeedsDisplay(rect)
+        //layer.setNeedsDisplay(rect)
+        layer.setNeedsDisplay()
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        flattenImage()
-    }
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        flattenImage()
+//    }
     
     override func draw(_ layer: CALayer, in ctx: CGContext) {
         
-        let drawingLayer = self.drawingLayer ?? CAShapeLayer()
-        let linePath = UIBezierPath()
-        drawingLayer.contentsScale = Display.scale
+//        let drawingLayer = self.drawingLayer ?? CAShapeLayer()
+//        let linePath = UIBezierPath()
+//        drawingLayer.contentsScale = Display.scale
+
+//        for (index, point) in line.enumerated() {
+//            if index == 0 {
+//                linePath.move(to: point)
+//            } else {
+//                linePath.addLine(to: point)
+//            }
+//        }
+//        drawingLayer.path = linePath.cgPath
+//        drawingLayer.opacity = 1
+//        drawingLayer.lineWidth = lineWidth
+//        drawingLayer.lineCap = .round
+//        drawingLayer.lineJoin = .round
+//        drawingLayer.fillColor = UIColor.clear.cgColor
+//        drawingLayer.strokeColor = lineColor.cgColor
+        
+//        if self.drawingLayer == nil {
+//            self.drawingLayer = drawingLayer
+//            layer.addSublayer(drawingLayer)
+//        }
+
+        guard
+            let cg = self.brushImage?.cgImage,
+            let size = self.brushImage?.size  else { return }
         
         for (index, point) in line.enumerated() {
-            if index == 0 {
-                linePath.move(to: point)
-            } else {
-                linePath.addLine(to: point)
-            }
+//            self.brushImage?.draw(at: point, blendMode: CGBlendMode.normal, alpha: 0.5)
+            
+            //debug
+            //print("point: \(point)")
+                
+            
+
+            let rect = CGRect(x: point.x - size.width/2,
+                              y: point.y - size.height/2,
+                              width: size.width,
+                              height: size.height)
+            
+//            ctx.setFillColor(UIColor.blue.cgColor)
+            ctx.setAlpha(0.5)
+            ctx.draw(cg, in: rect)
+//            ctx.addEllipse(in: rect)
+//            ctx.strokePath()
         }
-        drawingLayer.path = linePath.cgPath
-        drawingLayer.opacity = 1
-        drawingLayer.lineWidth = lineWidth
-        drawingLayer.lineCap = .round
-        drawingLayer.lineJoin = .round
-        drawingLayer.fillColor = UIColor.clear.cgColor
-        drawingLayer.strokeColor = lineColor.cgColor
-        
-        if self.drawingLayer == nil {
-            self.drawingLayer = drawingLayer
-            layer.addSublayer(drawingLayer)
-        }
+
     }
     
     func checkIfTooManyPoints() {
@@ -101,7 +133,7 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
     
     @objc func drawSpiral() {
         if self.spiralPoints.isEmpty {
-            emptyFlattenedLayers()
+//            emptyFlattenedLayers()
             drawingLayer?.removeFromSuperlayer()
             drawingLayer = nil
             line.removeAll()
@@ -118,7 +150,7 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
     
     func clear() {
         stopAutoDrawing()
-        emptyFlattenedLayers()
+//        emptyFlattenedLayers()
         drawingLayer?.removeFromSuperlayer()
         drawingLayer = nil
         line.removeAll()
@@ -126,9 +158,9 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
         layer.setNeedsDisplay()
     }
     
-    func emptyFlattenedLayers() {
-        for case let layer as CAShapeLayer in sublayers {
-            layer.removeFromSuperlayer()
-        }
-    }
+//    func emptyFlattenedLayers() {
+//        for case let layer as CAShapeLayer in sublayers {
+//            layer.removeFromSuperlayer()
+//        }
+//    }
 }

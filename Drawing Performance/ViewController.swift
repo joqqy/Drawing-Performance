@@ -28,19 +28,20 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         fpsCounter.delegate = self
         fpsCounter.startTracking()
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         super.viewDidAppear(animated)
+        
         cpuSlowView.backgroundColor = .green
         cpuFastView.backgroundColor = .blue
         gpuSubLayer.backgroundColor = .purple
-        gpuDrawLayer.backgroundColor = .orange
+        gpuDrawLayer.backgroundColor = .white
         
         displayedView = .cpuSlow(cpuSlowView)
     }
@@ -58,11 +59,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        
         switch sender.selectedSegmentIndex {
-        case 0: displayedView = .cpuSlow(cpuSlowView)
-        case 1: displayedView = .cpuFast(cpuFastView)
-        case 2: displayedView = .gpuSubLayer(gpuSubLayer)
-        case 3: displayedView = .gpuDrawLayer(gpuDrawLayer)
+            
+        case 0:
+            displayedView = .cpuSlow(cpuSlowView)
+        case 1:
+            displayedView = .cpuFast(cpuFastView)
+        case 2:
+            displayedView = .gpuSubLayer(gpuSubLayer)
+        case 3:
+            displayedView = .gpuDrawLayer(gpuDrawLayer)
             
         default: break
         }
@@ -76,6 +83,7 @@ class ViewController: UIViewController {
     }
     
     func setupView<T: UIView>() -> T {
+        
         let view = T()
         view.bounds = drawingContainer.bounds
         view.frame.origin = .zero
@@ -86,6 +94,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: FPSCounterDelegate {
+    
     func fpsCounter(_ counter: FPSCounter, didUpdateFramesPerSecond fps: Int) {
         fpsLabel.text = "FPS \(fps)"
     }
