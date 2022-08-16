@@ -9,6 +9,7 @@
 import UIKit
 
 protocol Drawable: class {
+    
     var spiralPoints: [CGPoint] { get set }
     var displayLink: CADisplayLink? { get set }
     var timer: Timer? { get set }
@@ -110,6 +111,7 @@ extension Drawable where Self: UIView {
     }
     
     func getImageRepresentation() -> UIImage? {
+        
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0)
         defer { UIGraphicsEndImageContext() }
         if let context = UIGraphicsGetCurrentContext() {

@@ -31,6 +31,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         fpsCounter.delegate = self
         fpsCounter.startTracking()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
