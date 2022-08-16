@@ -7,12 +7,27 @@
 
 import UIKit
 
-class LayerDelegate: NSObject, CALayerDelegate {
-    
-    func draw(_ layer: CALayer, in ctx: CGContext) {
-        
-    }
-}
+//class LayerDelegate: NSObject, CALayerDelegate {
+//
+//    var line = [CGPoint]()
+//
+//    func draw(_ layer: CALayer, in ctx: CGContext) {
+//
+//
+////        for (index, point) in line.enumerated() {
+//
+//            let rect = CGRect(x: 500 - 80/2,
+//                              y: 500 - 80/2,
+//                              width: 80,
+//                              height: 80)
+//
+//
+//            ctx.addEllipse(in: rect)
+//            ctx.strokePath()
+//
+////        }
+//    }
+//}
 
 // Draw GPU
 class FreeDrawingImageViewDrawLayer: UIView, Drawable {
@@ -22,15 +37,14 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
     
     var spiralPoints: [CGPoint] = []
     
-    let delegate = LayerDelegate()
-    lazy var sublayer: CALayer = {
-        
-        let layer = CALayer()
-        
-        layer.delegate = self.delegate
-        
-        return layer
-    }()
+//    let delegate = LayerDelegate()
+    
+//    lazy var sublayer: CALayer = {
+//
+//        let layer = CALayer()
+//        layer.delegate = self.delegate
+//        return layer
+//    }()
     
 
     var displayLink: CADisplayLink?
@@ -39,7 +53,10 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
     
     var brushImage: UIImage?
     override func didMoveToSuperview() {
+        
         self.brushImage = UIImage(named: "brush1")?.withTintColor(UIColor.blue, renderingMode: .alwaysOriginal)
+        
+//        layer.addSublayer(self.sublayer)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -57,20 +74,22 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
         print("line.count: \(line.count)")
 
         layer.setNeedsDisplay()
+//        self.sublayer.setNeedsDisplay()
         
-        if line.count > 400 {
-            
-            UIGraphicsBeginImageContextWithOptions(layer.bounds.size, false, 0)
-            layer.render(in: UIGraphicsGetCurrentContext()!)
-            let layerImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            layer.contents = layerImage?.cgImage
-            layer.sublayers = nil
-            
-            line.removeAll()
-        }
+//        // This only flattens sublayers
+//        if line.count > 100 {
+//
+//            UIGraphicsBeginImageContextWithOptions(layer.bounds.size, false, 0)
+//            layer.render(in: UIGraphicsGetCurrentContext()!)
+//            let layerImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+//            layer.contents = layerImage?.cgImage
+//            layer.sublayers = nil
+//
+//            line.removeAll()
+//        }
     }
-    
+
 //    // ///////////////////////////////////////////////////////////////////////////////
 //
 //    var useForceAlpha: Bool = true
@@ -169,6 +188,8 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
 //    }
 //
 //    // ///////////////////////////////////////////////////////////////////////////////
+    
+    
 
     override func draw(_ layer: CALayer, in ctx: CGContext) {
 
