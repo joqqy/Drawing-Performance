@@ -24,8 +24,8 @@ protocol Drawable: class {
 
 extension Drawable where Self: UIView {
     
-    var lineWidth: CGFloat { return 5 }
-    var lineColor: UIColor { return .white }
+    var lineWidth: CGFloat { return 20 }
+    var lineColor: UIColor { return .black }
     
     func hide() {
         self.isHidden = true

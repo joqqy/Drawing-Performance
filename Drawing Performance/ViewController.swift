@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         cpuSlowView.backgroundColor = .green
         cpuFastView.backgroundColor = .blue
         gpuSubLayer.backgroundColor = .purple
-        gpuDrawLayer.backgroundColor = .orange
+        gpuDrawLayer.backgroundColor = .white
         
         displayedView = .cpuSlow(cpuSlowView)
     }

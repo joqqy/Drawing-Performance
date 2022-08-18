@@ -60,6 +60,15 @@ class FreeDrawingImageViewDrawLayer: UIView, Drawable {
         drawingLayer.fillColor = UIColor.clear.cgColor
         drawingLayer.strokeColor = lineColor.cgColor
         
+        // pi my add        
+        drawingLayer.shadowColor = lineColor.cgColor
+        drawingLayer.shadowRadius = lineWidth/8
+        drawingLayer.shouldRasterize = true
+        drawingLayer.shadowOpacity = 1
+        drawingLayer.shadowOffset = CGSize.zero
+        // pi end my add
+      
+
         if self.drawingLayer == nil {
             self.drawingLayer = drawingLayer
             layer.addSublayer(drawingLayer)
